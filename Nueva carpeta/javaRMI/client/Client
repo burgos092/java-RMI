@@ -1,0 +1,15 @@
+import java.rmi.Naming;
+
+public class Client {
+
+    public static void main(String[] args) {
+        try {
+            HelloInterface hello = (HelloInterface) Naming.lookup("HelloService");
+            String response = hello.sayHello();
+            System.out.println("Respuesta del servidor: " + response);
+        } catch (Exception e) {
+            System.err.println("Error en el cliente: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+}

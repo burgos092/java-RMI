@@ -1,0 +1,44 @@
+import java.rmi.Naming;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+
+public class MathServer extends UnicastRemoteObject implements MathOperations {
+
+    public MathServer() throws RemoteException {
+        super();
+    }
+
+    @Override
+    public double suma(double a, double b) throws RemoteException {
+        return a + b;
+    }
+
+    @Override
+    public double resta(double a, double b) throws RemoteException {
+        return a - b;
+    }
+
+    @Override
+    public double multiplicacion(double a, double b) throws RemoteException {
+        return a * b;
+    }
+
+    @Override
+    public double division(double a, double b) throws RemoteException {
+        if (b == 0) {
+            throw new RemoteException("División por cero no permitida");
+        }
+        return a / b;
+    }
+
+    public static void main(String[] args) {
+        try {
+            MathServer server = new MathServer();
+            Naming.rebind("MathService", server);
+            System.out.println("Servidor de matemáticas RMI listo.");
+        } catch (Exception e) {
+            System.err.println("Error en el servidor: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+}
